@@ -24,7 +24,6 @@ SYMLINK       = ln -f -s
 DEL_DIR       = rmdir
 MOVE          = mv -f
 SUBTARGETS    =  \
-		sub-bearer \
 		sub-imageformats \
 		sub-platforms \
 		sub-platforminputcontexts \
@@ -400,10 +399,10 @@ plugins.pro:
 qmake: FORCE
 	@$(QMAKE) -o Makefile plugins.pro
 
-qmake_all:  sub-bearer-qmake_all sub-imageformats-qmake_all sub-platforms-qmake_all sub-platforminputcontexts-qmake_all sub-platformthemes-qmake_all sub-generic-qmake_all sub-accessible-qmake_all sub-printsupport-qmake_all FORCE
+qmake_all:   sub-imageformats-qmake_all sub-platforms-qmake_all sub-platforminputcontexts-qmake_all sub-platformthemes-qmake_all sub-generic-qmake_all sub-accessible-qmake_all sub-printsupport-qmake_all FORCE
 
-make_first:  sub-bearer-make_first sub-imageformats-make_first sub-platforms-make_first sub-platforminputcontexts-make_first sub-platformthemes-make_first sub-generic-make_first sub-accessible-make_first sub-printsupport-make_first FORCE
-all:  sub-bearer-all sub-imageformats-all sub-platforms-all sub-platforminputcontexts-all sub-platformthemes-all sub-generic-all sub-accessible-all sub-printsupport-all FORCE
+make_first:   sub-imageformats-make_first sub-platforms-make_first sub-platforminputcontexts-make_first sub-platformthemes-make_first sub-generic-make_first sub-accessible-make_first sub-printsupport-make_first FORCE
+all:   sub-imageformats-all sub-platforms-all sub-platforminputcontexts-all sub-platformthemes-all sub-generic-all sub-accessible-all sub-printsupport-all FORCE
 clean: sub-sqldrivers-clean sub-bearer-clean sub-imageformats-clean sub-platforms-clean sub-platforminputcontexts-clean sub-platformthemes-clean sub-generic-clean sub-accessible-clean sub-printsupport-clean FORCE
 distclean: sub-sqldrivers-distclean sub-bearer-distclean sub-imageformats-distclean sub-platforms-distclean sub-platforminputcontexts-distclean sub-platformthemes-distclean sub-generic-distclean sub-accessible-distclean sub-printsupport-distclean FORCE
 	-$(DEL_FILE) Makefile
