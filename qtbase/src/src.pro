@@ -21,19 +21,6 @@ src_tools_qdoc.target = sub-qdoc
 force_bootstrap: src_tools_qdoc.depends = src_tools_bootstrap
 else: src_tools_qdoc.depends = src_corelib src_xml
 
-src_tools_bootstrap_dbus.subdir = tools/bootstrap-dbus
-src_tools_bootstrap_dbus.target = sub-bootstrap_dbus
-src_tools_bootstrap_dbus.depends = src_tools_bootstrap
-
-src_tools_qdbusxml2cpp.subdir = tools/qdbusxml2cpp
-src_tools_qdbusxml2cpp.target = sub-qdbusxml2cpp
-force_bootstrap: src_tools_qdbusxml2cpp.depends = src_tools_bootstrap_dbus
-else: src_tools_qdbusxml2cpp.depends = src_dbus
-
-src_tools_qdbuscpp2xml.subdir = tools/qdbuscpp2xml
-src_tools_qdbuscpp2xml.target = sub-qdbuscpp2xml
-force_bootstrap: src_tools_qdbuscpp2xml.depends = src_tools_bootstrap_dbus
-else: src_tools_qdbuscpp2xml.depends = src_dbus
 
 src_winmain.subdir = $$PWD/winmain
 src_winmain.target = sub-winmain
@@ -46,22 +33,6 @@ src_corelib.depends = src_tools_moc src_tools_rcc
 src_xml.subdir = $$PWD/xml
 src_xml.target = sub-xml
 src_xml.depends = src_corelib
-
-src_dbus.subdir = $$PWD/dbus
-src_dbus.target = sub-dbus
-src_dbus.depends = src_corelib
-
-src_concurrent.subdir = $$PWD/concurrent
-src_concurrent.target = sub-concurrent
-src_concurrent.depends = src_corelib
-
-src_sql.subdir = $$PWD/sql
-src_sql.target = sub-sql
-src_sql.depends = src_corelib
-
-src_network.subdir = $$PWD/network
-src_network.target = sub-network
-src_network.depends = src_corelib
 
 src_testlib.subdir = $$PWD/testlib
 src_testlib.target = sub-testlib
@@ -76,7 +47,7 @@ src_gui.depends = src_corelib
 
 src_platformsupport.subdir = $$PWD/platformsupport
 src_platformsupport.target = sub-platformsupport
-src_platformsupport.depends = src_corelib src_gui src_network
+src_platformsupport.depends = src_corelib src_gui 
 
 src_widgets.subdir = $$PWD/widgets
 src_widgets.target = sub-widgets
@@ -96,23 +67,16 @@ src_printsupport.depends = src_corelib src_gui src_widgets src_tools_uic
 
 src_plugins.subdir = $$PWD/plugins
 src_plugins.target = sub-plugins
-src_plugins.depends = src_sql src_xml src_network
+src_plugins.depends =  src_xml 
 
 src_android.subdir = $$PWD/android
 
 # this order is important
 SUBDIRS += src_tools_bootstrap src_tools_moc src_tools_rcc src_corelib
 win32:SUBDIRS += src_winmain
-SUBDIRS += src_network src_sql src_xml src_testlib
-contains(QT_CONFIG, dbus) {
-    SUBDIRS += src_dbus
-    force_bootstrap: SUBDIRS += src_tools_bootstrap_dbus
-    SUBDIRS += src_tools_qdbusxml2cpp src_tools_qdbuscpp2xml
-    contains(QT_CONFIG, accessibility-atspi-bridge): \
-        src_platformsupport.depends += src_dbus src_tools_qdbusxml2cpp
-    src_plugins.depends += src_dbus src_tools_qdbusxml2cpp src_tools_qdbuscpp2xml
-}
-contains(QT_CONFIG, concurrent):SUBDIRS += src_concurrent
+SUBDIRS +=  src_xml src_testlib
+
+
 !contains(QT_CONFIG, no-gui) {
     win32:contains(QT_CONFIG, angle) {
         SUBDIRS += src_angle
@@ -136,6 +100,6 @@ contains(QT_CONFIG, concurrent):SUBDIRS += src_concurrent
 }
 SUBDIRS += src_plugins src_tools_qdoc
 
-nacl: SUBDIRS -= src_network src_testlib
+nacl: SUBDIRS -=  src_testlib
 
 android:!android-no-sdk: SUBDIRS += src_android
