@@ -27,7 +27,6 @@ SUBTARGETS    =  \
 		sub-embedded \
 		sub-gestures \
 		sub-gui \
-		sub-ipc \
 		sub-opengl \
 		sub-qpa \
 		sub-qtestlib \
@@ -579,10 +578,10 @@ examples.pro:
 qmake: FORCE
 	@$(QMAKE) -o Makefile examples.pro
 
-qmake_all:  sub-embedded-qmake_all sub-gestures-qmake_all sub-gui-qmake_all sub-ipc-qmake_all  sub-opengl-qmake_all sub-qpa-qmake_all sub-qtestlib-qmake_all sub-sql-qmake_all sub-threads-qmake_all sub-tools-qmake_all sub-touch-qmake_all sub-widgets-qmake_all sub-xml-qmake_all FORCE
+qmake_all:  sub-embedded-qmake_all sub-gestures-qmake_all sub-gui-qmake_all   sub-opengl-qmake_all sub-qpa-qmake_all sub-qtestlib-qmake_all  sub-threads-qmake_all sub-tools-qmake_all sub-touch-qmake_all sub-widgets-qmake_all sub-xml-qmake_all FORCE
 
-make_first:  sub-embedded-make_first sub-gestures-make_first sub-gui-make_first sub-ipc-make_first  sub-opengl-make_first sub-qpa-make_first sub-qtestlib-make_first sub-sql-make_first sub-threads-make_first sub-tools-make_first sub-touch-make_first sub-widgets-make_first sub-xml-make_first FORCE
-all: sub-dbus-all sub-embedded-all sub-gestures-all sub-gui-all sub-ipc-all sub-network-all sub-opengl-all sub-qpa-all sub-qtconcurrent-all sub-qtestlib-all sub-sql-all sub-threads-all sub-tools-all sub-touch-all sub-widgets-all sub-xml-all FORCE
+make_first:  sub-embedded-make_first sub-gestures-make_first sub-gui-make_first  sub-opengl-make_first sub-qpa-make_first sub-qtestlib-make_first  sub-threads-make_first sub-tools-make_first sub-touch-make_first sub-widgets-make_first sub-xml-make_first FORCE
+all: sub-dbus-all sub-embedded-all sub-gestures-all sub-gui-all  sub-network-all sub-opengl-all sub-qpa-all sub-qtconcurrent-all sub-qtestlib-all  sub-threads-all sub-tools-all sub-touch-all sub-widgets-all sub-xml-all FORCE
 clean: sub-dbus-clean sub-embedded-clean sub-gestures-clean sub-gui-clean sub-ipc-clean sub-network-clean sub-opengl-clean sub-qpa-clean sub-qtconcurrent-clean sub-qtestlib-clean sub-sql-clean sub-threads-clean sub-tools-clean sub-touch-clean sub-widgets-clean sub-xml-clean FORCE
 distclean: sub-dbus-distclean sub-embedded-distclean sub-gestures-distclean sub-gui-distclean sub-ipc-distclean sub-network-distclean sub-opengl-distclean sub-qpa-distclean sub-qtconcurrent-distclean sub-qtestlib-distclean sub-sql-distclean sub-threads-distclean sub-tools-distclean sub-touch-distclean sub-widgets-distclean sub-xml-distclean FORCE
 	-$(DEL_FILE) Makefile
