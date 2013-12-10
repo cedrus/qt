@@ -1,0 +1,49 @@
+From 61abac6f8da2ed1ca3ab74c8c65e5fd1be3d85ad Mon Sep 17 00:00:00 2001
+From: Andy Shaw <andy.shaw@digia.com>
+Date: Mon, 18 Mar 2013 16:36:40 +0200
+Subject: [PATCH 4/6] Fix build when SSE2 is not available.
+
+Although SSE2 support is detected at runtime it still may not be
+available at build time, so we have to ensure it only uses SSE2
+when it is available at build time too.
+
+Change-Id: I86c45a6466ab4cec79aa0f62b0d5230a78ad825a
+---
+ src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp b/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp
+index b3dcc59..53030b7 100644
+--- a/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp
++++ b/src/3rdparty/angle/src/libGLESv2/renderer/Image9.cpp
+@@ -373,11 +373,13 @@ void Image9::loadData(GLint xoffset, GLint yoffset, GLsizei width, GLsizei heigh
+     switch (mInternalFormat)
+     {
+       case GL_ALPHA8_EXT:
++#if defined(__SSE2__)
+         if (gl::supportsSSE2())
+         {
+             loadAlphaDataToBGRASSE2(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+         else
++#endif
+         {
+             loadAlphaDataToBGRA(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+@@ -413,11 +415,13 @@ void Image9::loadData(GLint xoffset, GLint yoffset, GLsizei width, GLsizei heigh
+         loadRGB565DataToBGRA(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         break;
+       case GL_RGBA8_OES:
++#if defined(__SSE2__)
+         if (gl::supportsSSE2())
+         {
+             loadRGBAUByteDataToBGRASSE2(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+         else
++#endif
+         {
+             loadRGBAUByteDataToBGRA(width, height, inputPitch, input, locked.Pitch, locked.pBits);
+         }
+-- 
+1.8.1.msysgit.1
+

@@ -1,0 +1,91 @@
+/****************************************************************************
+**
+** Copyright (C) 2012 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of the documentation of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:FDL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Free Documentation License Usage
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of
+** this file.  Please review the following information to ensure
+** the GNU Free Documentation License version 1.3 requirements
+** will be met: http://www.gnu.org/copyleft/fdl.html.
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
+/*!
+    \example sensor_explorer
+    \title Qt Sensors - Explorer QML example
+    \ingroup qtsensors-examples
+
+    \section2 Sensor Explorer in QML
+    \brief The Sensor Explorer example demonstrates how to read the meta-data of available sensors.
+
+
+    This example is divided into two parts:
+
+    \list
+    \li A \l{Sensor Explorer QML Import}{C++ plug-in} that provides QML alternatives for QSensorExplorer, QPropertyInfo and the QSensorItem classes.
+    \li A QML Application that uses the QML alternatives to read the sensors meta-data and present it.
+    \endlist
+
+
+    This is a pure QML application that can be run from Qt Creator or directly using the
+    \c qmlscene binary. You should install the other C++ plug-in before trying to run
+    this example, otherwise it will not find its dependencies.
+
+    \code
+    qmlscene main.qml
+    \endcode
+
+    To write a QML application that will use the Explorer QML type you need to do the following steps:
+
+    Import the Explorer 1.0 declarative plugin:
+
+    \snippet sensor_explorer/sensor_explorer.qml 0
+
+    Create a SensorExplorer QML item:
+
+    \snippet sensor_explorer/sensor_explorer.qml 1
+
+    You can retrieve a list of all available sensors using the SensorExplorer:
+
+    \snippet sensor_explorer/sensor_explorer.qml 2
+
+    To retrieve the properties of a SensorItem use:
+
+    \snippet sensor_explorer/sensor_explorer.qml 3
+
+    Changing a property value can be done like:
+
+    \snippet sensor_explorer/sensor_explorer.qml 4
+
+    Starting and stopping a sensor can be done like:
+
+    \snippet sensor_explorer/sensor_explorer.qml 5
+*/
+
+/*!
+    \example sensor_explorer/import
+    \title Sensor Explorer QML Import
+
+    \section2 Sensor Explorer Declarative Plugin
+    \brief The Sensor Explorer QML import exports the QSensorExplorer, QPropertyInfo and the QSensorItem class as a QML type.
+
+    This example creates the \e {Explorer 1.0} import.
+
+    \sa {Qt Sensors - Explorer QML example}
+*/
+

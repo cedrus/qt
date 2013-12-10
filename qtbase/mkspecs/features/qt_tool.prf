@@ -1,0 +1,45 @@
+#
+#  W A R N I N G
+#  -------------
+#
+# This file is not part of the Qt API.  It exists purely as an
+# implementation detail.  It may change from version to version
+# without notice, or even be removed.
+#
+# We mean it.
+#
+
+load(qt_app)
+
+CONFIG += console
+
+# If we are doing a prefix build, create a "module" pri which enables
+# qtPrepareTool() to work with the non-installed build.
+# Non-bootstrapped tools always need this because of the environment setup.
+!build_pass:if(!host_build|!force_bootstrap|force_independent) {
+    isEmpty(MODULE):MODULE = $$TARGET
+
+    !host_build|!force_bootstrap: MODULE_DEPENDS = $$replace(QT, -private$, )
+
+    load(qt_build_paths)
+
+    load(resolve_target)
+
+    TOOL_PRI = $$MODULE_QMAKE_OUTDIR/mkspecs/modules/qt_tool_$${MODULE}.pri
+
+    TOOL_PRI_CONT = \
+        "QT_TOOL.$${MODULE}.binary = $$QMAKE_RESOLVED_TARGET" \
+        "QT_TOOL.$${MODULE}.depends =$$join(MODULE_DEPENDS, " ", " ")"
+    write_file($$TOOL_PRI, TOOL_PRI_CONT)|error("Aborting.")
+
+    # Then, inject the new tool into the current cache state
+    !contains(QMAKE_INTERNAL_INCLUDED_FILES, $$TOOL_PRI) { # before the actual include()!
+        added = $$TOOL_PRI
+        cache(QMAKE_INTERNAL_INCLUDED_FILES, add transient, added)
+        unset(added)
+    }
+    include($$TOOL_PRI)
+    for(var, $$list(binary depends)): \
+        cache(QT_TOOL.$${MODULE}.$$var, transient)
+
+}

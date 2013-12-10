@@ -1,0 +1,350 @@
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of the documentation of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:FDL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Free Documentation License Usage
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of
+** this file.  Please review the following information to ensure
+** the GNU Free Documentation License version 1.3 requirements
+** will be met: http://www.gnu.org/copyleft/fdl.html.
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
+/*!
+\title Qt Quick Scene Graph
+\page qtquick-visualcanvas-scenegraph.html
+
+\section1 The Scene Graph in Qt Quick
+
+Qt Quick 2 makes use of a dedicated scene graph based on OpenGL ES 2.0
+or OpenGL 2.0 for its rendering. Using a scene graph for graphics
+rather than the traditional imperative painting systems (QPainter and
+similar), means the scene to be rendered can be retained between
+frames and the complete set of primitives to render is known before
+rendering starts. This opens up for a number of optimizations, such as
+batch rendering to minimize state changes and discarding obscured
+primitives.
+
+For example, say a user-interface contains a list of ten items
+where each item has a background color, an icon and a text. Using the
+traditional drawing techniques, this would result in 30 draw calls and
+a similar amount of state changes. A scene graph, on the other hand,
+could reorganize the primitives to render such that all backgrounds
+are drawn in one call, then all icons, then all the text, reducing the
+total amount of draw calls to only 3. Batching and state change
+reduction like this can greatly improve performance on some hardware.
+
+The scene graph is closely tied to Qt Quick 2.0 and can not be used
+stand-alone. The scene graph is managed and rendered by the
+QQuickWindow class and custom Item types can add their graphical
+primitives into the scene graph through a call to
+QQuickItem::updatePaintNode().
+
+The scene graph is a graphical representation of the Item scene, an
+independent structure that contains enough information to render all
+the items. Once it has been set up, it can be manipulated and rendered
+independently of the state of the items. On many platforms, the scene
+graph will even be rendered on a dedicated render thread while the GUI
+thread is preparing the next frame's state.
+
+
+\section1 Qt Quick Scene Graph Structure
+
+The scene graph is composed of a number of predefined node types, each
+serving a dedicated purpose. Although we refer to it as a scene graph,
+a more precise definition is node tree. The tree is built from
+QQuickItem types in the QML scene and internally the scene is then
+processed by a renderer which draws the scene. The nodes themselves do
+\b not contain any active drawing code nor virtual \c paint()
+function.
+
+Even though the node tree is mostly built internally by the existing
+Qt Quick QML types, it is possible for users to also add complete
+subtrees with their own content, including subtrees that represent 3D
+models.
+
+
+\section2 Nodes
+
+The most important node for users is the \l QSGGeometryNode. It is
+used to define custom graphics by defining its geometry and
+material. The geometry is defined using \l QSGGeometry and describes
+the shape or mesh of the graphical primitive. It can be a line, a
+rectangle, a polygon, many disconnected rectangles, or complex 3D
+mesh. The material defines how the pixels in this shape are filled.
+
+A node can have any number of children and geometry nodes will be
+rendered so they appear in child-order with parents behind their
+children. \note This does not say anything about the actual rendering
+order in the renderer. Only the visual output is guaranteed.
+
+The available nodes are:
+\annotatedlist{qtquick-scenegraph-nodes}
+
+Custom nodes are added to the scene graph by subclassing
+QQuickItem::updatePaintNode() and setting the
+\l {QQuickItem::ItemHasContents} flag.
+
+\warning It is crucial that OpenGL operations and interaction with the
+scene graph happens exclusively on the render thread, primarily
+during the updatePaintNode() call. The rule of thumb is to only
+use classes with the "QSG" prefix inside the
+QQuickItem::updatePaintNode() function.
+
+For more details, see the \l {Scene Graph - Custom Geometry}.
+
+\section3 Preprocessing
+
+Nodes have a virtual QSGNode::preprocess() function, which will be
+called before the scene graph is rendered. Node subclasses can set the
+flag \l QSGNode::UsePreprocess and override the QSGNode::preprocess()
+function to do final preparation of their node. For example, dividing a
+bezier curve into the correct level of detail for the current scale
+factor or updating a section of a texture.
+
+\section3 Node Ownership
+
+Ownership of the nodes is either done explicitly by the creator or by
+the scene graph by setting the flag \l QSGNode::OwnedByParent.
+Assigning ownership to the scene graph is often preferable as it
+simplifies cleanup when the scene graph lives outside the GUI thread.
+
+
+\section2 Materials
+
+The material describes how the interior of a geometry in a \l
+QSGGeometryNode is filled. It encapsulates an OpenGL shader program
+and provides ample flexibility in what can be achieved, though most of
+the Qt Quick items themselves only use very basic materials, such as
+solid color and texture fills.
+
+For users who just want to apply custom shading to a QML Item type,
+it is possible to do this directly in QML using the \l ShaderEffect
+type.
+
+Below is a complete list of material classes:
+\annotatedlist{qtquick-scenegraph-materials}
+
+For more details, see the \l {Scene Graph - Simple Material}
+
+
+\section2 Convenience Nodes
+
+The scene graph API is very low-level and focuses on performance
+rather than convenience. Writing custom geometries and materials from
+scratch, even the most basic ones, requires a non-trivial amount of
+code. For this reason, the API includes a few convenience classes to
+make the most common custom nodes readily available.
+
+\list
+\li \l QSGSimpleRectNode - a QSGGeometryNode subclass which defines a
+rectangular geometry with a solid color material.
+
+\li \l QSGSimpleTextureNode - a QSGGeometryNode subclass which defines
+a rectangular geometry with a texture material.
+\endlist
+
+
+
+\section1 Scene Graph and Rendering
+
+The rendering of the scene graph happens internally in the
+QQuickWindow class, and there is no public API to access it. There are
+however, a few places in the rendering pipeline where the user can
+attach application code. This can be to add custom scene graph
+content or render raw OpenGL content. The integration points are
+defined by the render loop.
+
+
+\section2 Threaded Render Loop
+
+On many configurations, the scene graph rendering will happen on a
+dedicated render thread. This is done to increase parallelism of
+multi-core processors and make better use of stall times such as
+waiting for a blocking swap buffer call. This offers significant
+performance improvements, but imposes certain restrictions on where
+and when interaction with the scene graph can happen.
+
+The following is a simple outline of how a frame gets
+composed with the threaded render loop.
+
+\image sg-renderloop-threaded.jpg
+
+\list 1
+
+\li A change occurs in the QML scene, causing \c QQuickItem::update()
+to be called. This can be the result of for instance an animation or
+user input. An event is posted to the render thread to initiate a new
+frame.
+
+\li The render thread prepares to draw a new frame and makes the
+OpenGL context current and initiates a blocks on the GUI thread.
+
+\li While the render thread is preparing the new frame, the GUI thread
+calls QQuickItem::updatePolish() to do final touch-up of items before
+they are rendered.
+
+\li GUI thread is blocked.
+
+\li The QQuickWindow::beforeSynchronizing() signal is emitted.
+Applications can make direct connections (using Qt::DirectConnection)
+to this signal to do any preparation required before calls to
+QQuickItem::updatePaintNode().
+
+\li Synchronization of the QML state into the scene graph. This is
+done by calling the QQuickItem::updatePaintNode() function on all
+items that have changed since the previous frame. This is the only
+time the QML items and the nodes in the scene graph interact.
+
+\li GUI thread block is released.
+
+\li The scene graph is rendered:
+    \list 1
+
+    \li The QQuickWindow::beforeRendering() signal is
+    emitted. Applications can make direct connections
+    (using Qt::DirectConnection) to this signal to use custom OpenGL calls
+    which will then stack visually beneath the QML scene.
+
+    \li Items that have specified QSGNode::UsePreprocess, will have their
+    QSGNode::preprocess() function invoked.
+
+    \li The renderer processes the nodes and calls OpenGL functions.
+
+    \li The QQuickWindow::afterRendering() signal is
+    emitted. Applications can make direct connections
+    (using Qt::DirectConnection) to this signal to use custom OpenGL calls
+    which will then stack visually over the QML scene.
+
+    \li The rendered frame is swapped and QQuickWindow::frameSwapped()
+    is emitted.
+
+    \endlist
+
+\li While the render thread is rendering, the GUI is free to advance
+animations, process events, etc.
+
+\endlist
+
+The threaded renderer is currently used by default on Linux, Mac OS X
+and EGLFS based QPA platforms, but this is subject to change. It is
+possible to force use of the threaded renderer by setting \c
+{QML_FORCE_THREADED_RENDERER=1} in the environment.
+
+
+\section2 Non-threaded Render Loop
+
+The non-threaded render loop is currently used by default on Windows
+and non-EGLFS based embedded platforms. This is mostly a precautionary
+measure, as not all combinations of OpenGL drivers and windowing
+systems have been tested.
+
+Even when using the non-threaded render loop, you should write your
+code as if you are using the threaded renderer, as failing to do so
+will make the code non-portable.
+
+The following is a simplified illustration of the frame rendering
+sequence in the non-threaded renderer.
+
+\image sg-renderloop-singlethreaded.jpg
+
+
+\section2 Mixing Scene Graph and OpenGL
+
+The scene graph offers two methods for integrating OpenGL content:
+by calling OpenGL commands directly and by creating a textured node
+in the scene graph.
+
+By connecting to the \l QQuickWindow::beforeRendering() and \l
+QQuickWindow::afterRendering() signals, applications can make OpenGL
+calls directly into the same context as the scene graph is rendering
+to. As the signal names indicate, the user can then render OpenGL
+content either under a Qt Quick scene or over it. The benefit of
+integrating in this manner is that no extra framebuffer nor memory is
+needed to perform the rendering. The downside is that Qt Quick decides
+when to call the signals and this is the only time the OpenGL
+application is allowed to draw. 
+
+The \l {Scene Graph - OpenGL Under QML} example gives an example on
+how to use use these signals.
+
+The other alternative is to create a FramebufferObject, render into it
+and use the result as a textured node in the scene graph, for instance
+using a QSGSimpleTextureNode. The \l {Scene Graph - Rendering FBOs}
+and \l {Scene Graph - Rendering FBOs in a thread} examples show how
+this can be done in an optimal manner.
+
+A simple way of doing the same is to use a QQuickPaintedItem with
+QQuickPaintedItem::FramebufferObject as render target and by calling
+QPainter::beginNativePainting() before the OpenGL rendering and
+QPainter::endNativePainting() after.
+
+\warning When mixing OpenGL content with scene graph rendering, it is
+important the application does not leave the OpenGL context in a state
+with buffers bound, attributes enabled, special values in the z-buffer
+or stencil-buffer or similar. Doing so can result in unpredictable
+behavior.
+
+\warning The OpenGL rendering code must be thread aware, as the
+rendering might be happening outside the GUI thread. 
+
+
+\section2 Custom Items using QPainter
+
+The QQuickItem provides a subclass, QQuickPaintedItem, which allows
+the users to render content using QPainter.
+
+\warning Using QQuickPaintedItem uses an indirect 2D surface to render
+its content, either using software rasterization or using an OpenGL
+framebuffer object (FBO), so the rendering is a two-step
+operation. First rasterize the surface, then draw the surface. Using
+scene graph API directly is always significantly faster.
+
+
+
+\section1 Scene Graph Backend
+
+In addition to the public API, the scene graph has an adaptation layer
+which opens up the implementation to do hardware specific
+adaptations. This is an undocumented, internal and private plugin API,
+which lets hardware adaptation teams make the most of their hardware.
+It includes:
+
+\list
+
+\li Custom textures; specifically the implementation of
+QQuickWindow::createTextureFromImage and the internal representation
+of the texture used by \l Image and \l BorderImage types.
+
+\li Custom renderer; the adaptation layer lets the plugin decide how
+the scene graph is traversed and rendered, making it possible to
+optimize the rendering algorithm for a specific hardware or to make
+use of extensions which improve performance.
+
+\li Custom scene graph implementation of many of the default QML
+types, including its text and font rendering.
+
+\li Custom animation driver; allows the animation system to hook
+into the low-level display vertical refresh to get smooth rendering.
+
+\li Custom render loop; allows better control over how QML deals
+with multiple windows.
+
+\endlist
+
+*/

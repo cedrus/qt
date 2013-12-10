@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>particleresources/noise.png</file>
+    </qresource>
+</RCC>

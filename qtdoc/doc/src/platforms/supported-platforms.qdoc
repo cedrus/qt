@@ -1,0 +1,398 @@
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of the documentation of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:FDL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.  For licensing terms and
+** conditions see http://qt.digia.com/licensing.  For further information
+** use the contact form at http://qt.digia.com/contact-us.
+**
+** GNU Free Documentation License Usage
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of
+** this file.  Please review the following information to ensure
+** the GNU Free Documentation License version 1.3 requirements
+** will be met: http://www.gnu.org/copyleft/fdl.html.
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
+/*!
+    \page windows-support.html
+    \title Support for Windows
+    \brief Platform support for Windows.
+    \ingroup platform-details
+
+    \section1 Qt on Windows
+
+    Qt is a comprehensive application and UI framework for developing Windows
+    applications that can also be deployed across many other desktop and
+    embedded operating systems without rewriting the source code. Use the
+    code from one single code-base and rebuild for all
+    \l{Supported Platforms}{supported Windows versions and other platforms}.
+
+    \section1 Getting Started on Windows
+
+    \list
+        \li \l{Getting Started with Qt}
+        \li \l{Supported Platforms}{Supported Windows platforms} - Qt
+        supports a wide range of Windows platforms.
+        \li \l{Qt for Windows Requirements}{Qt for Windows Requirements}
+        - Requirements for developing with Qt on Windows.
+        \li \l{Installing Qt for Windows}{Installing Qt for Windows}
+        - Build Qt for Windows development.
+        \li \l{Platform and Compiler Notes - Windows}{Platform and Compiler Notes - Windows}
+        - Windows platform specific notes.
+    \endlist
+
+    \section1 Key Features for Windows Development
+
+    \section2 Rich Class Library
+
+    The Qt class library includes all the functionality needed to build
+    advanced GUI applications.
+
+    \list
+        \li Complete set of customizable  \l{UI Design with Qt}{UI
+        controls/widgets}
+        \li 3D graphics support with \l{QtOpenGL Module}{OpenGL}
+        or Direct3D
+        \li Powerful \l{Thread Support in Qt}{multi-threading} features
+        \li \l{Graphics View Framework}{2D graphics canvas} capable of
+        handling millions of items
+        \li \l Multimedia support
+        \li \l{WebKit in Qt}{WebKit} integration
+        \li \l{Network programming with Qt}{Networking}, \l{QtXml Module}
+        {XML} and \l{Data Storage}{data storage} functionality
+        \li \l{ECMAScript Reference}{ECMA standard} scripting engine
+        \li \l{ActiveX in Qt}
+    \endlist
+
+    \section2 Integrated Development Tools
+
+    Qt includes a set of integrated development tools to speed
+    development on the Windows platform.
+
+    \list
+        \li \l{Qt Designer Manual}{Qt Designer} provides a drag and drop
+        visual GUI builder.
+        \li \l{Qt Linguist Manual}{Qt Linguist} provides internationalization
+        and translation features.
+        \li \l{Qt Assistant Manual}{Qt Assistant} is a customizable HTML help
+        file reader providing the complete Qt documentation offline.
+    \endlist
+
+    \section2 Cross-Platform Development using Qt Creator
+
+    \l{Qt Creator Manual}{Qt Creator} is
+    a complete Cross-platform IDE included in the Qt SDK. The IDE allows
+    programmers to create, build, debug and run Qt applications accross all
+    supported platforms.
+
+    \section2 Visual Studio Add-in.
+
+    The Qt Visual Studio Add-in allows programmers to create, build, debug
+    and run Qt applications from within Microsoft Visual Studio 2005, 2008
+    and 2010. The add-in contains project wizards, Qt project import/export
+    support, integrated Qt resource manager and automated build setup for
+    the Qt Meta-Object Compiler, User Interface Compiler, and Resource
+    Compiler.
+
+*/
+
+/*!
+    \page linuxX11-support.html
+    \title Support for Linux/X11
+    \brief Platform support for Linux/X11.
+    \ingroup platform-details
+
+    \section1 Qt on Linux/X11
+
+    Qt is a comprehensive application and UI framework for developing
+    Linux/X11 applications that can also be deployed across many other
+    desktop and embedded operating systems without rewriting the source code.
+    Use the code from one single code-base and rebuild for all
+    \l{Supported Platforms}{supported X11 versions and other platforms}.
+
+    \section1 Getting Started on Linux/X11
+
+    \list
+        \li \l{Getting Started with Qt}
+        \li \l{Supported Platforms}{Supported Linux/X11 platforms} - Qt
+        supports a wide range of Linux/X11 platforms.
+        \li \l{Qt for X11 Requirements}{Qt for X11 Requirements}
+        - Software required to run Qt on Linux/X11.
+        \li \l{Installing Qt for X11 Platforms}{Installing Qt for X11 Platforms}
+        - Build Qt for Linux/X11 development.
+        \li \l{Platform and Compiler Notes - X11}{Platform and Compiler Notes - X11}
+        - Platform specific notes.
+    \endlist
+
+    \section1 Key Features for Linux/X11 Development
+
+    \section2 Integrated Development Tools
+
+    Qt includes a set of integrated development tools to speed development
+    on X11 platforms.
+
+    \list
+        \li \l{Qt Designer Manual}{Qt Designer} provides a drag and drop
+        visual GUI builder.
+        \li \l{Qt Linguist Manual}{Qt Linguist} provides internationalization
+        and translation features.
+        \li \l{Qt Assistant Manual}{Qt Assistant} is a customizable HTML help
+        file reader providing the complete Qt documentation offline.
+        \li Integration with
+        \l{Eclipse Plugin}{Eclipse}
+        and KDevelop IDEs are also available.
+    \endlist
+
+    \section2 Cross-Platform Development using Qt Creator
+
+    \l{Qt Creator Manual}{Qt Creator} is
+    a complete Cross-platform IDE included in the Qt SDK. The IDE allows
+    programmers to create, build, debug and run Qt applications accross all
+    supported platforms.
+
+    \section2 Rich Class Library
+
+    The Qt class library includes all the funsctionality needed to build
+    advanced GUI applications.
+
+    \list
+        \li \l{Qt Quick} and QML, a powerful declarative UI language for making fluid, animated,
+        hardware-accelerated UIs.
+        \li Complete set of customizable \l{UI Design with Qt}{UI
+        controls/widgets}
+        \li 3D graphics support with \l{QtOpenGL Module}{OpenGL
+        integration}
+        \li Powerful \l{Thread Support in Qt}{multi-threading} features
+        \li \l{Graphics View Framework}{2D graphics canvas} capable of
+        handling millions of items
+        \li \l Multimedia support
+        \li \l{WebKit in Qt}{WebKit} integration
+        \li \l{Network programming with Qt}{Networking}, \l{QtXml Module}
+        {XML} and \l{Data Storage}{data storage} functionality
+        \li \l{ECMAScript Reference}{ECMA standard} scripting engine
+        \li \l{Qt X11 Extras} - provides APIs for X11
+    \endlist
+
+    \section2 Qt is the Foundation of KDE
+
+    Qt is best known in the Linux community as the basis for the KDE
+    desktop environment. Almost everything in KDE is based on Qt, and
+    Qt forms the foundation for thousands of open source KDE applications
+    developed by community members worldwide.
+
+*/
+
+/*!
+    \page mac-support.html
+    \title Support for Mac OS X
+    \brief Platform support for Mac OS X.
+    \ingroup platform-details
+
+    \section1 Qt on Mac OS X
+
+    Qt is a comprehensive application and UI framework for developing Mac
+    applications that can also be deployed across many other desktop and
+    embedded operating systems without rewriting the source code. Use the
+    code from one single code-base and rebuild for all
+    \l{Supported Platforms}{supported Windows versions and other platforms}.
+
+     \section1 Getting Started on Mac
+
+    \list
+        \li \l{Getting Started with Qt}
+        \li \l{Qt for Mac OS X Requirements}{Qt for Mac OS X Requirements}
+        - Software required to run Qt on Mac OS X.
+        \li \l{Installing Qt for Mac OS X}{Installing Qt for Mac OS X}
+        - Build Qt for Mac OS X development.
+        \li \l{Developing Qt Applications for Mac OS X} - Details about the developer evironment on Mac OS X
+        \li \l{Platform and Compiler Notes - Mac OS X}{Platform and Compiler Notes - Mac OS X}
+        - Platform specific notes.
+        \li \l{Developing Qt Applications for Mac OS X}
+        \li \l{Qt for Mac OS X - Specific Issues}{Specific Issues}
+    \endlist
+
+     \section1 Key Features for Mac OS X Development
+
+    \section2 Integrated Development Tools
+
+    Qt includes a set of integrated development tools to speed development
+    on the Mac platform.
+
+    \list
+        \li \l{Qt Designer Manual}{Qt Designer} provides a drag and drop
+        visual GUI builder.
+        \li \l{Qt Linguist Manual}{Qt Linguist} provides internationalization
+        and translation features.
+        \li \l{Qt Assistant Manual}{Qt Assistant} is a customizable HTML help
+        file reader providing the complete Qt documentation offline.
+    \endlist
+
+    \section2 Cross-Platform Development using Qt Creator
+
+    \l{Qt Creator Manual}{Qt Creator} is
+    a complete Cross-platform IDE included in the Qt SDK. The IDE allows
+    programmers to create, build, debug and run Qt applications accross all
+    supported platforms.
+
+    \section2 Rich Class Library
+
+    The Qt class library includes all the functionality needed to build
+    advanced GUI applications.
+
+    \list
+        \li \l{Qt Quick} and QML, a powerful declarative UI language for making fluid, animated,
+        hardware-accelerated UIs.
+        \li Complete set of customizable \l{UI Design with Qt}{UI
+        controls/widgets}
+        \li 3D graphics support with \l{QtOpenGL Module}{OpenGL
+        integration}
+        \li Powerful \l{Thread Support in Qt}{multi-threading} features
+        \li \l{Graphics View Framework}{2D graphics canvas} capable of
+        handling millions of items
+        \li \l{Multimedia}{Support for Audio and Video} through the \l{Qt Multimedia}{Qt Multimedia
+        module}
+        \li \l{WebKit in Qt}{WebKit} integration
+        \li \l{Network programming with Qt}{Networking}, \l{QtXml Module}
+        {XML} and \l{Data Storage}{data storage} functionality
+        \li \l{ECMAScript Reference}{ECMA standard} scripting engine
+        \li \l{Qt is Mac OS X Native}{Native} support
+    \endlist
+
+*/
+/*!
+    \page supported-platforms.html
+    \title Supported Platforms
+    \brief The platforms supported by Qt.
+    \group platform-details
+
+    Qt is a cross-platform application and UI framework. Using Qt,
+    you can write GUI applications once and deploy them
+    across desktop, mobile and embedded operating systems without
+    rewriting the source code.In Qt 5 all platforms are created using
+    the new \l{Qt Platform Abstraction} (QPA), which makes it easier
+    than before to port Qt into a new operating system.
+
+    Qt is supported on a variety of 32-bit and 64-bit platforms,
+    and can usually be built on each platform with GCC, a vendor-supplied
+    compiler, or a third party compiler. Open GL (ES) 2.0 or
+    DirectX 9 (with ANGLE) is required for Qt Quick 2. Widgets and
+    Qt Quick 1 can be used also without hardware acceleration.
+
+    \section1 Desktop Platforms
+
+    You can develop with Qt on the following desktop platforms:
+
+    \list
+        \li \l{Support for Windows}{Windows}
+        \li \l{Support for Linux/X11}{Linux/X11}
+        \li \l{Support for Mac OS X}{Mac OS X}
+    \endlist
+
+    \section1 Embedded platforms
+    You can develop with Qt for the following embedded platforms:
+    \list
+        \li Embedded Linux (DirectFB, EGLFS, KMS, and Wayland)
+        \li \l{Windows CE - Introduction to using Qt}{Windows Embedded (Compact and Standard)}
+        \li Real-Time Operating Systems, such as \l{QNX}, VxWorks and INTEGRITY
+    \endlist
+
+    \section1 Mobile platforms
+    Qt 5 will support all leading mobile operating systems. There already exists work in progress support for:
+    \list
+        \li \l{Android}
+        \li \l{iOS}
+        \li Windows 8 (WinRT)
+        \li \l{Qt for BlackBerry}{BlackBerry 10}
+    \endlist
+
+    \section1 Reference Configurations
+
+    A \e {reference configuration} is a combination of an operating system version,
+    a compiler version, and a graphics system. The following table lists the
+    configurations that are tested by the Qt Project:
+
+    \table
+    \header \li Platform
+                                     \li Compiler
+    \row    \li Ubuntu Linux 11.10, X11 (32-bit and 64-bit)
+                                     \li As provided by Ubuntu
+    \row    \li Ubuntu Linux 12.04, X11 (64-bit)
+                                     \li As provided by Ubuntu
+    \row    \li Microsoft Windows 7 (32-bit)
+                                     \li MSVC 2010 SP1
+    \row    \li Microsoft Windows 7 (32-bit)
+                                     \li \l{http://sourceforge.net/projects/mingwbuilds/files/host-windows/releases/4.8.0/32-bit/threads-posix/dwarf/x32-4.8.0-release-posix-dwarf-rev1.7z}{MinGW-builds gcc 4.8.0 (32-bit)}
+    \row    \li Microsoft Windows 8 (32-bit and 64-bit)
+                                     \li MSVC 2012 SP2
+    \row    \li Apple Mac OS X 10.7 "Lion", Cocoa (64-bit)
+                                     \li Clang as provided by Apple
+    \row    \li Apple Mac OS X 10.8 "Mountain Lion", Cocoa (64-bit)
+                                     \li Clang as provided by Apple
+    \endtable
+
+    All these reference configurations are run on the continuous integration (CI) system
+    of the Qt Project. In addition, they are subjected to unit test suite and
+    other internal
+    testing tools on a frequent basis (prior to new version releases, source tree
+    branching, and at other significant period points in the development process).
+    Errors or bugs discovered in these platforms are prioritized for correction.
+    Significant errors discovered in tested configurations can impact release
+    dates.
+
+    Any configurations not listed above are not actively tested by the Qt
+    Project. The Qt Project does not run its unit test suite or perform any
+    other internal tests on configurations not listed above. However, Qt may run
+    on configurations other than those actively tested on, and additional
+    configurations may be raised to tested state, if sufficient effort is made
+    to bring continuous integration to an acceptable state for that particular
+    configuration.
+
+    In addition to the reference platforms Qt is occasionally tested on other
+    configurations in which it is known to run well. These include, for example:
+
+    \table
+    \header \li Platform
+                                     \li Compiler
+    \row    \li Ubuntu Linux 10.04, X11 (32-bit)
+                                     \li As provided by Ubuntu
+    \row    \li Microsoft Windows XP (32-bit)
+                                     \li MSVC 2008
+    \row    \li Apple Mac OS X 10.6 "Snow Leopard", Cocoa (32-bit)
+                                     \li GCC as provided by Apple
+    \endtable
+
+    Digia, Qt partners, open source projects and community users
+    are able to provide assistance with various different supported
+    platforms and configurations.
+
+    \section1 Availability of Binary Installation Packages
+
+    The Qt Project provides binary Qt installation packages for all of the
+    reference platforms from \l{http://qt-project.org/downloads}. The site
+    provides download links for all supported development platforms.
+
+    The \l{Qt Installation Program} page has more information about the
+    installers.
+
+    \section1 General Legal Disclaimer
+
+    Please note that Qt is offered on an "as is" basis without warranty
+    of any kind and that our products are not error or bug free. To the maximum extent
+    permitted by applicable law, Digia on behalf of itself and its suppliers, disclaims all
+    warranties and conditions, either express or implied, including, but not limited to,
+    implied warranties of merchantability, fitness for a particular purpose, title and
+    non-infringement with regard to the Licensed Software.
+
+*/

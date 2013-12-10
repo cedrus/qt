@@ -1,0 +1,36 @@
+From a8f8f0858f59e6b8e344dfb0bb87e264aac0a13f Mon Sep 17 00:00:00 2001
+From: Jonathan Liu <net147@gmail.com>
+Date: Thu, 21 Mar 2013 17:28:54 +0200
+Subject: [PATCH 6/6] ANGLE: Fix typedefs for Win64
+
+The long int type is incorrect for Windows 64-bit as LLP64 is used
+there.
+---
+ src/3rdparty/angle/include/KHR/khrplatform.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/3rdparty/angle/include/KHR/khrplatform.h b/src/3rdparty/angle/include/KHR/khrplatform.h
+index b169773..18a104e 100644
+--- a/src/3rdparty/angle/include/KHR/khrplatform.h
++++ b/src/3rdparty/angle/include/KHR/khrplatform.h
+@@ -222,10 +222,17 @@ typedef signed   char          khronos_int8_t;
+ typedef unsigned char          khronos_uint8_t;
+ typedef signed   short int     khronos_int16_t;
+ typedef unsigned short int     khronos_uint16_t;
++#ifdef _WIN64
++typedef signed   long long int khronos_intptr_t;
++typedef unsigned long long int khronos_uintptr_t;
++typedef signed   long long int khronos_ssize_t;
++typedef unsigned long long int khronos_usize_t;
++#else
+ typedef signed   long  int     khronos_intptr_t;
+ typedef unsigned long  int     khronos_uintptr_t;
+ typedef signed   long  int     khronos_ssize_t;
+ typedef unsigned long  int     khronos_usize_t;
++#endif
+ 
+ #if KHRONOS_SUPPORT_FLOAT
+ /*
+-- 
+1.8.1.msysgit.1
+

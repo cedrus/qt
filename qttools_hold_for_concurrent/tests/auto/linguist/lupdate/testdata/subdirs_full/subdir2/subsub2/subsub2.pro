@@ -1,0 +1,4 @@
+SOURCES += main.cpp
+
+TRANSLATIONS = ../../project_sub.ts
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0

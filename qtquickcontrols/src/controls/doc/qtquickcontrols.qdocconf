@@ -1,0 +1,46 @@
+include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+
+project                 = QtQuickControls
+description             = Qt Quick Controls Reference Documentation
+url                     = http://qt-project.org/doc/qt-$QT_VER/qtquickcontrols/
+version                 = $QT_VERSION
+
+qhp.projects            = QtQuickControls
+
+qhp.QtQuickControls.file          = qtquickcontrols.qhp
+qhp.QtQuickControls.namespace     = org.qt-project.qtquickcontrols.$QT_VERSION_TAG
+qhp.QtQuickControls.virtualFolder = qtquickcontrols
+qhp.QtQuickControls.indexTitle    = Qt Quick Controls
+qhp.QtQuickControls.indexRoot     =
+#qhp.QtQuickControls.extraFiles = style/qtquickcontrols.css
+
+qhp.QtQuickControls.filterAttributes    = qtquickcontrols $QT_VERSION qtrefdoc
+qhp.QtQuickControls.customFilters.Qt.name = QtQuickControls $QT_VERSION
+qhp.QtQuickControls.customFilters.Qt.filterAttributes = qtquickcontrols $QT_VERSION
+
+qhp.QtQuickControls.subprojects = qtquickcontrolsqmltypes
+qhp.QtQuickControls.subprojects.qtquickcontrolsqmltypes.title = QML Types
+qhp.QtQuickControls.subprojects.qtquickcontrolsqmltypes.indexTitle = Qt Quick Controls QML Types
+qhp.QtQuickControls.subprojects.qtquickcontrolsqmltypes.selectors = class fake:qmlclass
+qhp.QtQuickControls.subprojects.qtquickcontrolsqmltypes.sortPages = true
+
+depends = qtqml qtquick qtwidgets qtdoc qtquicklayouts qtquickcontrolsstyles
+
+exampledirs += ../../../examples/quick/controls
+
+# Specify the install path under QT_INSTALL_EXAMPLES
+examplesinstallpath = quick/controls
+
+headerdirs += ../
+
+sourcedirs += ../
+
+sources += ../../private/AbstractCheckable.qml \
+           ../../private/BasicButton.qml \
+           ../../private/FocusFrame.qml \
+           ../../private/ModalPopupBehavior.qml \
+           ../../private/ScrollBar.qml \
+           ../../private/TabBar.qml \
+           ../../private/Control.qml \
+
+imagedirs += images
