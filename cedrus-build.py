@@ -66,4 +66,13 @@ for root, sub_folders, files in os.walk( where_to_move_to ):
             os.remove( os.path.join(root, f) )
 
 
+# now run install_name_tool to update all mac dylibs to @executable_path
+command_04 = str( qt_binary_location + os.sep
+                  + 'macosx' + os.sep
+                  + 'cedrus_qt_mach-o_dylib_fixer.sh '
+                  + where_to_move_to + ' be_verbose' )
+
+p = subprocess.Popen(command_04, shell=True)
+
+wait_for_process(p)
 
