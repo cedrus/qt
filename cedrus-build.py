@@ -41,3 +41,29 @@ build_command_03 = 'make -j6 install module-qtbase'
 p = subprocess.Popen(build_command_03, shell=True)
 
 wait_for_process(p)
+
+# where the main qt dylibs are:
+# /Users/kkheller/Documents/qt5_bins/macosx/lib
+
+# other ones found (RECURSIVELY) here:
+# /Users/kkheller/Documents/qt5_bins/macosx/plugins
+
+what_to_walk = qt_binary_location + os.sep + 'macosx' + os.sep + 'plugins'
+where_to_move_to = qt_binary_location + os.sep + 'macosx' + os.sep + 'lib' + os.sep
+
+for root, sub_folders, files in os.walk( what_to_walk ):
+
+    for f in files:
+        source = os.path.join(root, f)
+        destination = os.path.join( where_to_move_to, f )
+        os.rename(source, destination)
+
+# remove SYMLINKS from the final 'lib' folder:
+for root, sub_folders, files in os.walk( where_to_move_to ):
+
+    for f in files:
+        if os.path.islink( os.path.join(root, f) ):
+            os.remove( os.path.join(root, f) )
+
+
+
