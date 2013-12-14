@@ -68,6 +68,16 @@ QPlatformIntegration *QPlatformIntegrationFactory::create(const QString &platfor
     }
     if (QPlatformIntegration *ret = qLoadPlugin1<QPlatformIntegration, QPlatformIntegrationPlugin>(loader(), platform, paramList))
         return ret;
+
+    /*
+      next two lines of code are CEDRUS ADDITIONS. we want to call (static) QCoreApplication::addLibraryPath
+      PRIOR TO instantiating the QApplication object on Mac. The only way that actually works is if
+      directLoader (note the 'direct' part) is used here. you can see above that previously the attempt would only
+      be done with 'loader' (not directLoader).
+     */
+    if (QPlatformIntegration *ret = qLoadPlugin1<QPlatformIntegration, QPlatformIntegrationPlugin>(directLoader(), platform, paramList))
+        return ret;
+
 #endif
     return 0;
 }
