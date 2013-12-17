@@ -14,6 +14,13 @@ if ( False == os.path.exists( qt_binary_location ) ) or ( False == os.path.isdir
     print 'FAIL. script cannot verify that "' + str( qt_binary_location ) + '" ($QT_BINARIES_REPO) is a directory'
     exit()
 
+if ( os.path.exists( '/sw/lib' ) ) or ( os.path.isdir( '/sw/lib' ) ):
+    print 'FAIL. you must temporarily hide (rename) your /sw/lib directory to build Qt. linking to libs in /sw will not work for customers'
+    exit()
+
+if ( os.path.exists( '/usr/local/Cellar' ) ) or ( os.path.isdir( '/usr/local/Cellar' ) ):
+    print 'FAIL. you must temporarily hide (rename) your /usr/local/Cellar directory to build Qt. linking to libs in homebrew will not work for customers'
+    exit()
 
 def wait_for_process( p ):
     running_stuff = True
