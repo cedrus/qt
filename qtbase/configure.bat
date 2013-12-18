@@ -39,10 +39,11 @@
 ::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-@echo off
+@echo on
+
 set QTSRC=%~dp0
 set QTDIR=%CD%
-if not exist %QTSRC%\.gitignore goto sconf
+REM // if not exist %QTSRC%\.gitignore goto sconf  // REM not sure why the qt folks put this line here. we MUST remove, since no gitignore exists there
 echo Please wait while bootstrapping configure ...
 
 for %%C in (cl.exe icl.exe g++.exe perl.exe) do set %%C=%%~$PATH:C
