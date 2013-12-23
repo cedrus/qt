@@ -32,21 +32,22 @@ def wait_for_process( p ):
 
 
 build_command_01 = './configure -prefix ' + qt_binary_location + '/macosx/ -platform macx-g++-32 -no-framework'
-
-p = subprocess.Popen(build_command_01, shell=True)
-
-wait_for_process(p)
-
 build_command_02 = 'make -j6 module-qtbase'
-
-p = subprocess.Popen(build_command_02, shell=True)
-
-wait_for_process(p)
-
 build_command_03 = 'make -j6 install module-qtbase'
 
-p = subprocess.Popen(build_command_03, shell=True)
+if sys.platform == 'win32':
+    build_command_01 = str( 'configure.bat -platform win32-msvc2010 -no-cetest -prefix "' +
+                            qt_binary_location + '\win32\\"')
+    build_command_02 = 'nmake module-qtbase'
+    build_command_03 = 'nmake module-qtbase-install_subtargets'
 
+p = subprocess.Popen(build_command_01, shell=True)
+wait_for_process(p)
+
+p = subprocess.Popen(build_command_02, shell=True)
+wait_for_process(p)
+
+p = subprocess.Popen(build_command_03, shell=True)
 wait_for_process(p)
 
 # where the main qt dylibs are:
@@ -55,8 +56,13 @@ wait_for_process(p)
 # other ones found (RECURSIVELY) here:
 # /Users/kkheller/Documents/qt5_bins/macosx/plugins
 
-what_to_walk = qt_binary_location + os.sep + 'macosx' + os.sep + 'plugins'
-where_to_move_to = qt_binary_location + os.sep + 'macosx' + os.sep + 'lib' + os.sep
+os_dir_name = 'macosx'
+
+if sys.platform == 'win32':
+    os_dir_name = 'win32'
+
+what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'plugins'
+where_to_move_to = qt_binary_location + os.sep + os_dir_name + os.sep + 'lib' + os.sep
 
 for root, sub_folders, files in os.walk( what_to_walk ):
 
@@ -73,13 +79,14 @@ for root, sub_folders, files in os.walk( where_to_move_to ):
             os.remove( os.path.join(root, f) )
 
 
-# now run install_name_tool to update all mac dylibs to @executable_path
-command_04 = str( qt_binary_location + os.sep
-                  + 'macosx' + os.sep
-                  + 'cedrus_qt_mach-o_dylib_fixer.sh '
-                  + where_to_move_to + ' be_verbose' )
+if sys.platform == 'darwin':
+    # now run install_name_tool to update all mac dylibs to @executable_path
+    command_04 = str( qt_binary_location + os.sep
+                      + 'macosx' + os.sep
+                      + 'cedrus_qt_mach-o_dylib_fixer.sh '
+                      + where_to_move_to + ' be_verbose' )
 
-p = subprocess.Popen(command_04, shell=True)
+    p = subprocess.Popen(command_04, shell=True)
 
-wait_for_process(p)
+    wait_for_process(p)
 
