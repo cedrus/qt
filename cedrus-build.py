@@ -22,6 +22,15 @@ if ( os.path.exists( '/usr/local/Cellar' ) ) or ( os.path.isdir( '/usr/local/Cel
     print 'FAIL. you must temporarily hide (rename) your /usr/local/Cellar directory to build Qt. linking to libs in homebrew will not work for customers'
     exit()
 
+if sys.platform == 'win32':
+    test_01 = os.getenv( 'VCINSTALLDIR', '' )
+    test_02 = os.getenv( 'LIBPATH', '' )
+    test_03 = os.getenv( 'DEVENVDIR', '' )
+
+    if test_01 == '' or test_02 == '' or test_03 == '':
+        print 'FAIL. cannot run from default CMD prompt. use Visual Studio Command Prompt or execute vcvarsall.bat'
+        exit()
+
 def wait_for_process( p ):
     running_stuff = True
     while running_stuff:
