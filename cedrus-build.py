@@ -37,7 +37,7 @@ build_command_03 = 'make -j6 install module-qtbase'
 
 if sys.platform == 'win32':
     build_command_01 = str( 'configure.bat -platform win32-msvc2010 -no-cetest -prefix "' +
-                            qt_binary_location + '\win32\\"')
+                            qt_binary_location + '\win32\"')
     build_command_02 = 'nmake module-qtbase'
     build_command_03 = 'nmake module-qtbase-install_subtargets'
 
