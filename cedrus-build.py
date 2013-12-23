@@ -28,6 +28,11 @@ if sys.platform == 'win32':
     test_03 = os.getenv( 'DEVENVDIR', '' )
 
     if test_01 == '' or test_02 == '' or test_03 == '':
+        """
+        It seems simplest to just require that the user open the Visual Studio cmd window.
+        Otherwise, in past scripts we have put the following into a BAT file:
+            @call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
+        """
         print 'FAIL. cannot run from default CMD prompt. use Visual Studio Command Prompt or execute vcvarsall.bat'
         exit()
 
