@@ -16,6 +16,7 @@ if ( False == os.path.exists( qt_binary_location ) ) or ( False == os.path.isdir
 
 if ( os.path.exists( '/sw/lib' ) ) or ( os.path.isdir( '/sw/lib' ) ):
     print 'FAIL. you must temporarily hide (rename) your /sw/lib directory to build Qt. linking to libs in /sw will not work for customers'
+    print '      (NOTE: it is simplest to hide the base [sw] dir, otherwise [/sw/bin] is there but [/sw/lib] is not, leading to issues.)'
     exit()
 
 if ( os.path.exists( '/usr/local/Cellar' ) ) or ( os.path.isdir( '/usr/local/Cellar' ) ):
@@ -47,7 +48,7 @@ def wait_for_process( p ):
 
 build_command_01 = './configure -prefix ' + qt_binary_location + '/macosx/ -platform macx-g++-32 -no-framework'
 build_command_02 = 'make -j6 module-qtbase'
-build_command_03 = 'make -j6 install module-qtbase'
+build_command_03 = 'make -j6 module-qtbase-install_subtargets'
 
 if sys.platform == 'win32':
     build_command_01 = str( 'configure.bat -platform win32-msvc2010 -no-cetest -prefix "' +
