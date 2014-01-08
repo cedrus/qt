@@ -18,7 +18,6 @@ SUBDIRS       = \
                 scroller \
                 statemachine \
                 tools \
-                tutorials \
                 widgets \
                 windowcontainer
 
