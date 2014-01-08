@@ -47,14 +47,14 @@ def wait_for_process( p ):
 
 
 build_command_01 = './configure -prefix ' + qt_binary_location + '/macosx/ -platform macx-g++-32 -no-framework'
-build_command_02 = 'make -j6 module-qtbase'
-build_command_03 = 'make -j6 module-qtbase-install_subtargets'
+build_command_02 = 'make -j6 module-qtquick1'                       # should also build qtbase, since qtquick depends on qtbase
+build_command_03 = 'make -j6 module-qtquick1-install_subtargets'    # should also build qtbase, since qtquick depends on qtbase
 
 if sys.platform == 'win32':
     build_command_01 = str( 'configure.bat -platform win32-msvc2010 -no-cetest -prefix "' +
                             qt_binary_location + '\win32\"')
-    build_command_02 = 'nmake module-qtbase'
-    build_command_03 = 'nmake module-qtbase-install_subtargets'
+    build_command_02 = 'nmake module-qtquick1'                       # should also build qtbase, since qtquick depends on qtbase
+    build_command_03 = 'nmake module-qtquick1-install_subtargets'    # should also build qtbase, since qtquick depends on qtbase
 
 p = subprocess.Popen(build_command_01, shell=True)
 wait_for_process(p)

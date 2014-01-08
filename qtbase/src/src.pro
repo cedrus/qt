@@ -34,6 +34,14 @@ src_xml.subdir = $$PWD/xml
 src_xml.target = sub-xml
 src_xml.depends = src_corelib
 
+src_sql.subdir = $$PWD/sql
+src_sql.target = sub-sql
+src_sql.depends = src_corelib
+
+src_network.subdir = $$PWD/network
+src_network.target = sub-network
+src_network.depends = src_corelib
+
 src_testlib.subdir = $$PWD/testlib
 src_testlib.target = sub-testlib
 src_testlib.depends = src_corelib   # src_gui & src_widgets are not build-depends
@@ -47,7 +55,7 @@ src_gui.depends = src_corelib
 
 src_platformsupport.subdir = $$PWD/platformsupport
 src_platformsupport.target = sub-platformsupport
-src_platformsupport.depends = src_corelib src_gui 
+src_platformsupport.depends = src_corelib src_gui src_network
 
 src_widgets.subdir = $$PWD/widgets
 src_widgets.target = sub-widgets
@@ -67,15 +75,14 @@ src_printsupport.depends = src_corelib src_gui src_widgets src_tools_uic
 
 src_plugins.subdir = $$PWD/plugins
 src_plugins.target = sub-plugins
-src_plugins.depends =  src_xml 
+src_plugins.depends = src_sql src_xml src_network
 
 src_android.subdir = $$PWD/android
 
 # this order is important
 SUBDIRS += src_tools_bootstrap src_tools_moc src_tools_rcc src_corelib
 win32:SUBDIRS += src_winmain
-SUBDIRS +=  src_xml src_testlib
-
+SUBDIRS += src_network src_sql src_xml src_testlib
 
 !contains(QT_CONFIG, no-gui) {
     win32:contains(QT_CONFIG, angle) {
@@ -100,6 +107,6 @@ SUBDIRS +=  src_xml src_testlib
 }
 SUBDIRS += src_plugins src_tools_qdoc
 
-nacl: SUBDIRS -=  src_testlib
+nacl: SUBDIRS -= src_network src_testlib
 
 android:!android-no-sdk: SUBDIRS += src_android
