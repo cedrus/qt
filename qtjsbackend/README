@@ -1,0 +1,23 @@
+This repository contains a copy of V8 with additional changes needed for Qt.
+
+Please use [V8] as prefix to the subject of your commit messages when your change
+affects V8 itself and not the build system around it.
+
+Updating v8:
+
+Run
+
+    ./bin/update-v8.sh [url] [refspec]
+
+to update src/3rdparty/v8 to a specific v8 version. The script will remove
+all Qt specific modifications and save them in /tmp/v8_patch, where they
+can be applied from using git am.
+
+For example:
+
+    ./bin/update-v8.sh https://github.com/v8/v8.git refs/tags/3.7.3
+    git commit -e -F commitlog.txt
+    git am -3 /tmp/v8_patch
+
+In the likely case of conflicts, follow the git instructions about continuing
+the patch application process after resolving the conflicts.

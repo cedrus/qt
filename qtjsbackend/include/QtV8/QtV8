@@ -1,0 +1,5 @@
+#ifndef QT_QTV8_MODULE_H
+#define QT_QTV8_MODULE_H
+#include <QtV8/QtV8Depends>
+#include "qtv8version.h"
+#endif

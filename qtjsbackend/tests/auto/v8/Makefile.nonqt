@@ -1,0 +1,33 @@
+V8PATH = ../../../src/3rdparty/v8
+V8INCPATH = $(V8PATH)/include
+SOURCES = v8main.cpp v8test.cpp
+
+CCFLAGS_RELEASE = -DNONQT_TESTING -lpthread -O2
+CCFLAGS_DEBUG = -DNONQT_TESTING -lpthread -g
+
+LIBS_SNAPSHOT = -lv8_base -lv8_snapshot
+LIBS_NOSNAPSHOT = -lv8_base -lv8_nosnapshot
+
+ia32-release: $(SOURCES)
+	g++ -o v8test_ia32_release -m32 $(CCFLAGS_RELEASE) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/ia32.release/obj.target/tools/gyp $(LIBS_SNAPSHOT)
+
+ia32-debug: $(SOURCES)
+	g++ -o v8test_ia32_debug -m32 $(CCFLAGS_DEBUG) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/ia32.debug/obj.target/tools/gyp $(LIBS_SNAPSHOT)
+
+x64-release: $(SOURCES)
+	g++ -o v8test_x64_release $(CCFLAGS_RELEASE) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/x64.release/obj.target/tools/gyp $(LIBS_SNAPSHOT)
+
+x64-debug: $(SOURCES)
+	g++ -o v8test_x64_debug $(CCFLAGS_DEBUG) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/x64.debug/obj.target/tools/gyp $(LIBS_SNAPSHOT)
+
+mips-release: $(SOURCES)
+	g++ -o v8test_mips_release -m32 $(CCFLAGS_RELEASE) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/mips.release/obj.target/tools/gyp -Wl,-rpath,$(V8PATH)/out/mips.release/obj.target/tools/gyp $(LIBS_NOSNAPSHOT)
+
+mips-debug: $(SOURCES)
+	g++ -o v8test_mips_debug -m32 $(CCFLAGS_DEBUG) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/mips.debug/obj.target/tools/gyp -Wl,-rpath,$(V8PATH)/out/mips.debug/obj.target/tools/gyp $(LIBS_NOSNAPSHOT)
+
+arm-release: $(SOURCES)
+	g++ -o v8test_arm_release -m32 $(CCFLAGS_RELEASE) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/arm.release/obj.target/tools/gyp -Wl,-rpath,$(V8PATH)/out/arm.release/obj.target/tools/gyp $(LIBS_NOSNAPSHOT)
+
+arm-debug: $(SOURCES)
+	g++ -o v8test_arm_debug -m32 $(CCFLAGS_DEBUG) -I$(V8INCPATH) $(SOURCES) -L$(V8PATH)/out/arm.debug/obj.target/tools/gyp -Wl,-rpath,$(V8PATH)/out/arm.debug/obj.target/tools/gyp $(LIBS_NOSNAPSHOT)
