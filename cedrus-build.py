@@ -82,19 +82,33 @@ wait_for_process(p)
 # /Users/kkheller/Documents/qt5_bins/macosx/plugins
 
 os_dir_name = 'macosx'
+lib_suffix = 'dylib'
 
 if sys.platform == 'win32':
     os_dir_name = 'win32'
+    lib_suffix = 'dll'
+
+def move_plugins_to_lib_dir( plugin_dir, lib_dir ):
+    global lib_suffix
+
+    for root, sub_folders, files in os.walk( plugin_dir ):
+
+        for f in files:
+            if f.endswith( lib_suffix ):
+                source = os.path.join(root, f)
+                destination = os.path.join( lib_dir, f )
+                shutil.copy2(source, destination)
 
 what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'plugins'
 where_to_move_to = qt_binary_location + os.sep + os_dir_name + os.sep + 'lib' + os.sep
 
-for root, sub_folders, files in os.walk( what_to_walk ):
+move_plugins_to_lib_dir( what_to_walk, where_to_move_to )
 
-    for f in files:
-        source = os.path.join(root, f)
-        destination = os.path.join( where_to_move_to, f )
-        os.rename(source, destination)
+what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'imports'
+move_plugins_to_lib_dir( what_to_walk, where_to_move_to )
+
+what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'qml'
+move_plugins_to_lib_dir( what_to_walk, where_to_move_to )
 
 # remove SYMLINKS from the final 'lib' folder:
 for root, sub_folders, files in os.walk( where_to_move_to ):
