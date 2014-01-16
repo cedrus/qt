@@ -88,42 +88,40 @@ if sys.platform == 'win32':
     os_dir_name = 'win32'
     lib_suffix = 'dll'
 
-def move_plugins_to_lib_dir( plugin_dir, lib_dir ):
+def copy_plugins_to_lib_dir( plugin_dir, lib_dir ):
     global lib_suffix
 
     for root, sub_folders, files in os.walk( plugin_dir ):
 
         for f in files:
-            if f.endswith( lib_suffix ):
-                source = os.path.join(root, f)
+            source = os.path.join(root, f)
+            not_symlink = (False == os.path.islink( str(source) ) )
+            if not_symlink and f.endswith( lib_suffix ):
                 destination = os.path.join( lib_dir, f )
+                print 'moving [' + str( source ) + '] over to [' + str(destination) + ']'
                 shutil.copy2(source, destination)
 
 what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'plugins'
-where_to_move_to = qt_binary_location + os.sep + os_dir_name + os.sep + 'lib' + os.sep
+where_to_copy_to = qt_binary_location + os.sep + os_dir_name + os.sep + 'final-lib' + os.sep
 
-move_plugins_to_lib_dir( what_to_walk, where_to_move_to )
+copy_plugins_to_lib_dir( what_to_walk, where_to_copy_to )
 
 what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'imports'
-move_plugins_to_lib_dir( what_to_walk, where_to_move_to )
+copy_plugins_to_lib_dir( what_to_walk, where_to_copy_to )
 
 what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'qml'
-move_plugins_to_lib_dir( what_to_walk, where_to_move_to )
+copy_plugins_to_lib_dir( what_to_walk, where_to_copy_to )
 
-# remove SYMLINKS from the final 'lib' folder:
-for root, sub_folders, files in os.walk( where_to_move_to ):
-
-    for f in files:
-        if os.path.islink( os.path.join(root, f) ):
-            os.remove( os.path.join(root, f) )
+what_to_walk = qt_binary_location + os.sep + os_dir_name + os.sep + 'lib'
+copy_plugins_to_lib_dir( what_to_walk, where_to_copy_to )
 
 
 if sys.platform == 'darwin':
     # now run install_name_tool to update all mac dylibs to @executable_path
     command_04 = str( qt_binary_location + os.sep
                       + 'macosx' + os.sep
-                      + 'cedrus_qt_mach-o_dylib_fixer.sh '
-                      + where_to_move_to + ' be_verbose' )
+                      + 'cedrus_qt_mach-o_dylib_fixer.py '
+                      + where_to_copy_to )
 
     p = subprocess.Popen(command_04, shell=True)
 
