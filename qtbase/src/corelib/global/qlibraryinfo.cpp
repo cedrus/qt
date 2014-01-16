@@ -44,6 +44,7 @@
 #include "qsettings.h"
 #include "qlibraryinfo.h"
 #include "qscopedpointer.h"
+#include "qcoreapplication.h" // unconditional pound-include added by Cedrus.
 
 #ifdef QT_BUILD_QMAKE
 QT_BEGIN_NAMESPACE
@@ -342,7 +343,31 @@ QLibraryInfo::rawLocation(LibraryLocation loc, PathGroup group)
 #endif
     {
         const char *path = 0;
-        if (unsigned(loc) < sizeof(qt_configure_prefix_path_strs)/sizeof(qt_configure_prefix_path_strs[0]))
+
+        // ======================= Cedrus-specific modification =======================
+
+        /*
+          in any non-Cedrus app, we MUST allow Qt to do what it wants!
+          Otherwise, we break the qt tools like qmlscene
+         */
+        bool use_configure_lookup = (unsigned(loc) < sizeof(qt_configure_prefix_path_strs)/sizeof(qt_configure_prefix_path_strs[0]));
+
+        #ifndef QT_BUILD_QMAKE
+        /*
+          in our Cedrus apps we wish to PREVENT any use of the hardcoded (compiled-in)
+          paths from qconfig.cpp.
+          Instead, we wish to ONLY use paths we set explicitly, using avenues such as
+          calling QCoreApplication::addLibraryPath
+         */
+        if ( QCoreApplication::organizationName() == QString(QLatin1String(("Cedrus"))) )
+        {
+            // detected Cedrus app.
+            use_configure_lookup = false;
+        }
+        #endif //#ifndef QT_BUILD_QMAKE
+        // ====(end)============== Cedrus-specific modification =======================
+
+        if (use_configure_lookup)  //(unsigned(loc) < sizeof(qt_configure_prefix_path_strs)/sizeof(qt_configure_prefix_path_strs[0]))
             path = qt_configure_prefix_path_strs[loc] + 12;
 #ifndef Q_OS_WIN // On Windows we use the registry
         else if (loc == SettingsPath)
