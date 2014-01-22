@@ -82,21 +82,27 @@ wait_for_process(p)
 # /Users/kkheller/Documents/qt5_bins/macosx/plugins
 
 os_dir_name = 'macosx'
-lib_suffix = 'dylib'
+lib_suffixes = ['dylib']
 
 if sys.platform == 'win32':
     os_dir_name = 'win32'
-    lib_suffix = 'dll'
+    lib_suffixes = ['dll','lib']
 
 def copy_plugins_to_lib_dir( plugin_dir, lib_dir ):
-    global lib_suffix
+    global lib_suffixes
 
     for root, sub_folders, files in os.walk( plugin_dir ):
 
         for f in files:
             source = os.path.join(root, f)
             not_symlink = (False == os.path.islink( str(source) ) )
-            if not_symlink and f.endswith( lib_suffix ):
+            is_lib = False
+            for suf in lib_suffixes:
+                if f.endswith( suf ):
+                    is_lib = True
+                    break
+
+            if not_symlink and is_lib:
                 destination = os.path.join( lib_dir, f )
                 print 'moving [' + str( source ) + '] over to [' + str(destination) + ']'
                 shutil.copy2(source, destination)
