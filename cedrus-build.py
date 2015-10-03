@@ -46,7 +46,13 @@ def wait_for_process( p ):
             time.sleep(.05) # fraction of a second
 
 
-build_command_01 = './configure -prefix ' + qt_binary_location + '/macosx/ -platform macx-g++-32 -no-framework'
+# the next line DID NOT WORK! i ended up setting CXXFLAGS at the top of: qt/qtbase/configure
+#os.environ[ 'QMAKE_CXXFLAGS' ] = '-std=c++11 -stdlib=libc++'
+
+# the next line FAILED TO WORK. i ended up setting LDFLAGS at the top of: qt/qtbase/configure
+#os.environ[ 'QMAKE_LFLAGS' ] = '-stdlib=libc++'
+
+build_command_01 = './configure -prefix ' + qt_binary_location + '/macosx/ -platform macx-clang -no-framework'
 build_command_02 = 'make -j6 module-qtquick1'                       # should also build qtbase, since qtquick depends on qtbase
 build_command_03 = 'make -j6 module-qtquick1-install_subtargets'    # should also build qtbase, since qtquick depends on qtbase
 build_command_04 = 'make -j6 module-qtquickcontrols'
@@ -80,6 +86,17 @@ wait_for_process(p)
 
 # other ones found (RECURSIVELY) here:
 # /Users/kkheller/Documents/qt5_bins/macosx/plugins
+
+
+"""
+If you want to WIPE CLEAN the whole destination area before building
+new qt binaries, then as of Oct 2015 i can recommend the following:
+
+cd ../qt-binaries/macosx/
+rm -rf *   # clear out everything under /macosx/
+mkdir final-lib  # you need to RESTORE THIS FOLDER. (but it can begin EMPTY)
+git checkout cedrus_qt_mach-o_dylib_fixer.py  # you must restore this SINGLE script
+"""
 
 os_dir_name = 'macosx'
 lib_suffixes = ['dylib']

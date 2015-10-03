@@ -45,6 +45,15 @@
 # script initialization
 #-------------------------------------------------------------------------------
 
+if [ "$(uname)" == "Darwin" ]; then
+LDFLAGS='-stdlib=libc++'
+CXXFLAGS='-std=c++11 -stdlib=libc++'
+
+export LDFLAGS='-stdlib=libc++'
+export CXXFLAGS='-std=c++11 -stdlib=libc++'
+fi
+# end of cedrus hack with LDFLAGS and CXXFLAGS
+
 # the name of this script
 relconf=`basename $0`
 # the directory of this script is the "source tree"
@@ -243,9 +252,10 @@ macSDKify()
     sysroot=$(/usr/bin/xcodebuild -sdk $sdk -version Path 2>/dev/null)
     if [ -z "$sysroot" ]; then echo "Failed to resolve SDK path for '$sdk'" >&2; exit 1; fi
 
+    # the text 3 lines down where "-mmacosx-version-min=10.7" appears was not always hardcoded. see git history. cedrus hardcoding.
     case "$sdk" in
         macosx*)
-            version_min_flag="-mmacosx-version-min=$(getSingleQMakeVariable QMAKE_MACOSX_DEPLOYMENT_TARGET "$1")"
+            version_min_flag="-mmacosx-version-min=10.7"
         ;;
         iphoneos*)
             version_min_flag="-miphoneos-version-min=$(getSingleQMakeVariable QMAKE_IOS_DEPLOYMENT_TARGET "$1")"

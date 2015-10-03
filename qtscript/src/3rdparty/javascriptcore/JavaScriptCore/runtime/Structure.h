@@ -216,7 +216,7 @@ namespace JSC {
         // This bitfield optimization is insignificant for the Symbian emulator target.
         unsigned m_attributesInPrevious;
 #else
-        unsigned m_attributesInPrevious : 7;
+        unsigned m_attributesInPrevious; // : 7;
 #endif
         unsigned m_anonymousSlotsInPrevious : 6;
         unsigned m_specificFunctionThrashCount : 2;
